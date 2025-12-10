@@ -1,0 +1,432 @@
+---
+title: "Designing FAIR Biomedical Visuals"
+author: "<br><br><span style='font-size:25px;'><strong>Lesley Chapman Hannah, Ph.D., M.S.</strong></span><br>College of Graduate Studies<br>Northeast Ohio Medical University"
+
+format: 
+  revealjs:
+    #theme: solarized
+    css: style.css
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: images/Flame.jpg
+    #css: styles.css
+    
+---
+
+## Lecture Outline
+
+- Discuss topics on how to design and build our own FAIR biomedical figures
+
+- Coding Example: Discuss coding example for one of the FAIR principles 
+
+- Coding Example: Discuss a complete example where are FAIR principles are considered
+
+::: footer
+
+:::
+
+
+## <span style="font-size:80%">What Does FAIR Look Like in Practice?</span> {.smaller}
+
+- Designing with FAIR from the start prevents downstream rework: reviewers, journal data editors, and regulatory partners expect traceable visuals
+
+- FAIR eliminates ambiguity → downstream analysis teams (industry ML teams, meta-analysis groups, FDA reviewers) can reuse results without asking for clarification
+
+- Figures are not the end of an analysis — they become machine-readable artifacts in public repositories, HTA submissions, and RWE pipelines
+
+- FAIR leads to faster clinical translation: more consistent interpretation → less risk of misrepresentation → quicker consensus
+
+::: footer
+
+:::
+
+
+
+
+## <span style="font-size:80%">Figures built for versioning and downstream interpretation</span> {.smaller}
+
+
+| Analytical Role | Example  |
+|-----------|--------------|
+| `Input to ML meta-studies` | Hundreds of UMAP embeddings scraped into LLM-driven knowledge graphs |
+| `Evidence for regulatory review` | Figures cited directly in FDA filings |
+| `Traceable clinical data assets` | Variant classification evidence  |
+| `Reproducibility checkpoints` | Data versioning, statistical parameterization |
+
+
+::: footer
+:::
+
+## <span style="font-size:80%">FAIR Visualization Framework: Purpose</span> {.smaller}
+
+
+| FAIR Principle | Design Question | Value for Biomedical Stakeholders |
+|-----------|--------------|--------------|
+| `Findable` | Could someone locate and cite this figure later? | Journals / Meta-analysts |
+| `Accessible` | Could a colorblind viewer or screen reader interpret the plot? | Clinicians / Review boards |
+| `Interoperable` | Does it use standard ontologies and open formats? | Data engineers / AI pipelines |
+| `Reusable` | Could someone replicate the exact figure? | Researchers / Regulators |
+
+::: footer
+:::
+
+
+## <span style="font-size:80%">FAIR Visualization Design Strategy: Biomedical Code Examplese</span> {.smaller}
+
+
+| FAIR Principle | Design Goal | Biomedical Example |
+|-----------|--------------|--------------|
+| `Findable` | Structured titles and captions | Figure 3. TCGA-LUAD RNA-seq (v2.2, n=542), DEGs by log₂FC and FDR |
+| `Accessible` | Accessible palettes | Volcano plot w/ viridis, alt-text: “Up-reg genes in red at FDR<0.05…” |
+| `Interoperable` | Standard ontologies and open formats | GO-based Bubble chart exported as SVG or JSON |
+| `Reusable` | Code and parameter transparency | Quarto/R Markdown-generated clinical lab plots (i.e.: store code in online repo) |
+
+::: footer
+:::
+
+
+
+## <span style="font-size:80%">Deep Dive: Findability in FAIR Visualization</span> {.smaller}
+
+- Focus: one FAIR design goal
+
+  - students are encouraged to independently review the remaining FAIR strategies—Accessibility, Interoperability, and Reusability
+
+- Findability means a figure is self-identifying 
+
+- A human or machine can locate the exact data and methods behind the figure
+
+::: footer
+
+:::
+
+
+
+## <span style="font-size:80%">Findability in Biomedical Figures</span> {.smaller}
+
+Figure includes: 
+
+- **source attribution** : where did the data come from? [GEO accession, dbGaP project, clinical trial registry ID]
+
+- **cohort transparency** : who is represented in this evidence?
+[n, disease state, treatment-naïve vs refractory, inclusion/exclusion]
+
+- **methodological anchoring** : how was this evidence constructed? [alignment, normalization, clustering, versioning of tools]
+
+- **question alignment**: why does this figure exist? [what biological hypothesis or clinical decision does it address?]
+
+
+::: footer
+
+:::
+
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Applied example</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Task**: Show IBD inflammation phenotypes from biopsy transcriptomes
+
+**Plot Type and Rationale**: Heatmap to claim an interferon-gamma response signature distinguishes severe Ulcerative Colitis (UC)
+
+**Plot Explanation**:
+
+- Rows: genes (often the “top” differentially expressed genes)
+
+- Columns: patient samples (UC biopsies, varying severity)
+
+- Color: relative gene expression within each gene (e.g., z-scores)
+
+  - Bright/yellow = high expression
+
+  - Dark/purple = low expression
+
+
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+
+library(ggplot2)
+library(dplyr)
+
+set.seed(1)
+umap_df <- tibble(
+  UMAP1  = rnorm(500),
+  UMAP2  = rnorm(500),
+  cluster = factor(sample(letters[1:5], 500, TRUE))
+)
+
+# BEFORE: ambiguous UMAP
+p_before <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster)) +
+  geom_point(size = 1.1, alpha = 0.7) +
+  theme_minimal() +
+  labs(title = "UMAP embedding")
+
+
+p_before
+
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Applied example</span> {.smaller}
+
+
+::: columns
+::: {.column width="50%" style="font-size: 15pt;"}
+| Encoding | Use Case     |
+|-----------|--------------|
+| `Position` | Continuous quantitative comparison (scatter, line, dot plots) |
+| `Length` | Comparing magnitudes from a common zero (bars, lollipops) |
+| `Angle/Slope` | Change, ratio, or trend (lines, radar charts) |
+| `Area/Volume` | Expressing relative scale, emphasis, or uncertainty (bubbles, heatmaps) |
+| `Color (Hue/Intensity)` | Differentiating groups or encoding ordinal ranges |
+:::
+
+
+
+
+::: {.column width="50%"}
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+
+library(ggplot2)
+library(dplyr)
+
+set.seed(1)
+umap_df <- tibble(
+  UMAP1  = rnorm(500),
+  UMAP2  = rnorm(500),
+  cluster = factor(sample(letters[1:5], 500, TRUE))
+)
+
+# before
+p_before <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster)) +
+  geom_point(size = 1.1, alpha = 0.7) +
+  theme_minimal() +
+  labs(title = "UMAP embedding")
+
+# after
+dataset_id    <- "TCGA-LUAD"
+accession     <- "GDC:TCGA-LUAD"
+pipeline_ver  <- "Scanpy 1.9.3"
+clust_method  <- "Leiden (resolution = 0.6)"
+n_cells       <- nrow(umap_df)
+
+p_after <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster)) +
+  geom_point(size = 1.1, alpha = 0.7) +
+  theme_minimal() +
+  labs(
+    title    = "Figure 2. UMAP of TCGA-LUAD tumor single cells",
+    subtitle = glue::glue("{accession}, n = {n_cells} cells; {clust_method}; pipeline {pipeline_ver}"),
+    x        = "UMAP1",
+    y        = "UMAP2",
+    color    = "Leiden cluster",
+    caption  = "Input: log1p(CPM) genes; neighbors = 15; metric = cosine; QC: mito% < 15, n_genes > 500."
+  )
+
+
+p_after
+
+
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+## <span style="font-size:80%">FAIR Data Visualization in Practice</span> {.smaller}
+
+- **Research Question**: Do tumors contain distinct immune cell phenotypes that may influence response to immunotherapy?
+
+- **Data Visualization Question**: Are there biologically meaningful immune phenotypes emerging from the high-dimensional data?
+
+- **Plot Type**: UMAP visualization
+
+
+
+::: footer
+
+:::
+
+
+## <span style="font-size:80%">FAIR Data Visualization in Practice</span> {.smaller}
+
+
+- **Research Question**: Do tumors contain distinct immune cell phenotypes that may influence response to immunotherapy?
+
+- **Plot rationale**:
+
+  - Tumor microenvironment varies dramatically patient to patient
+
+  - Certain T-cell states (e.g., CD8-exhausted, Treg-like) are associated with immune evasion
+
+  - Cluster identity and abundance may predict which patients benefit from checkpoint inhibitors
+
+::: footer
+
+:::
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Applied example</span> {.smaller}
+
+
+::: columns
+::: {.column width="50%" style="font-size: 15pt;"}
+| Feature | FAIR    |
+|-----------|--------------|
+| `Dataset identification` | TCGA-LUAD RNA-seq (v2.2) |
+| `QC transparency` | TPM >1, mito% < 15, ComBat batch correction |
+| `Semantics` | CD8-Exhausted, Treg-like, etc. |
+| `Accessibility` | Legend + accessible colors |
+| `Reusability` | Caption w/ stats + code DOI |
+| `Clinical readiness` | Supports immunotherapy cohort stratification |
+:::
+
+
+
+
+::: {.column width="50%"}
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+
+library(glue)
+library(tidyverse)
+
+dataset_accession <- "GSE99887"
+species           <- "Homo sapiens"
+tissue            <- "Colon adenocarcinoma"
+n_samples         <- 120
+norm_method       <- "FPKM"
+clust_method      <- "Hierarchical clustering (1 - Pearson r)"
+
+caption_text <- glue(
+  "GSE99887 {species} {tissue}, n = {n_samples} \n ",
+  "expression values normalized via {norm_method} \n ",
+  "row clustering by {clust_method}"
+)
+
+heat_df <- expand_grid(
+  sample = paste0("S", 1:40),
+  gene   = paste0("G", 1:50)
+) |>
+  mutate(expr = rnorm(n()))
+
+# Simple "heatmap-style" tile plot (for teaching)
+p_heat <- ggplot(heat_df, aes(sample, gene, fill = expr)) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  theme_minimal(base_size = 8) +
+  theme(
+    axis.text.x   = element_blank(),
+    axis.title.x  = element_text(face = "bold"),
+    axis.title.y  = element_text(face = "bold"),
+    plot.caption  = element_text(size = 9, face = "italic")
+  ) +
+  labs(
+    title   = "Figure 4. Differential expression heatmap in colon tumors",
+    subtitle= glue("{dataset_accession}, {norm_method}; subset of top 50 DE genes"),
+    x       = "Samples",
+    y       = "Genes",
+    fill    = "Expression (z-score)",
+    caption = caption_text
+  )
+
+p_heat
+
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+## <span style="font-size:80%">Summary</span> {.smaller}
+
+
+- Figures are a part of a biomedical evidence ecosystem, informing downstream interpretation, machine learning, and regulatory review
+
+- Components of a well designed figure:
+
+  - Connects data to decisions: clear hypothesis alignment and cohort transparency ensure the figure answers a real biomedical question
+
+  - Stays interpretable across contexts and audiences: accessibility and semantic clarity (e.g., biological state labels, QC details) enable clinicians, analysts, and reviewers to trust what they see
+
+::: footer
+
+:::
+
+
+## <span style="font-size:80%">Summary</span> {.smaller}
+
+Components of a well designed figure:
+
+- Maintains traceability across versions and systems: dataset IDs, methods, and open formats allow others — including machines — to retrieve, verify, and reuse the visual without guesswork
+
+- Supports future-proof analysis: standard structures, code transparency, and interoperable formats turn figures into reusable scientific assets — powering meta-studies, knowledge graphs, and regulatory filings
+
+::: footer
+
+:::
+
+
