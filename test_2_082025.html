@@ -357,35 +357,37 @@
 <div class="column" style="font-size: 15pt;">
 <table class="caption-top">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 56%">
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Encoding</th>
-<th>Use Case</th>
+<th>Attribute</th>
+<th>What is included?</th>
+<th>Why it matters</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Position</code></td>
-<td>Continuous quantitative comparison (scatter, line, dot plots)</td>
+<td><code>Dataset origin</code></td>
+<td>GEO: GSE99887</td>
+<td>Others can download the data</td>
 </tr>
 <tr class="even">
-<td><code>Length</code></td>
-<td>Comparing magnitudes from a common zero (bars, lollipops)</td>
+<td><code>Cohort</code></td>
+<td>UC vs Crohn’s, n=120, treatment-naïve</td>
+<td>Validity and bias assessment</td>
 </tr>
 <tr class="odd">
-<td><code>Angle/Slope</code></td>
-<td>Change, ratio, or trend (lines, radar charts)</td>
+<td><code>Preprocessing</code></td>
+<td>DESeq2 VST, top 50 variable genes</td>
+<td>Methods must match the question</td>
 </tr>
 <tr class="even">
-<td><code>Area/Volume</code></td>
-<td>Expressing relative scale, emphasis, or uncertainty (bubbles, heatmaps)</td>
-</tr>
-<tr class="odd">
-<td><code>Color (Hue/Intensity)</code></td>
-<td>Differentiating groups or encoding ordinal ranges</td>
+<td><code>Clustering</code></td>
+<td>Pearson + Ward.D2</td>
+<td>Reproducible interpretation of patterns</td>
 </tr>
 </tbody>
 </table>
@@ -442,6 +444,64 @@
 <table class="caption-top">
 <thead>
 <tr class="header">
+<th>Dimension</th>
+<th>Non-FAIR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Dataset identification</code></td>
+<td>Missing</td>
+</tr>
+<tr class="even">
+<td><code>QC transparency</code></td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td><code>Semantics</code></td>
+<td>Clusters A–E</td>
+</tr>
+<tr class="even">
+<td><code>Accessibility</code></td>
+<td>Unclear palette</td>
+</tr>
+<tr class="odd">
+<td><code>Reusability</code></td>
+<td>Static PNG</td>
+</tr>
+<tr class="even">
+<td><code>Clinical readiness</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="test_2_082025_files/figure-revealjs/unnamed-chunk-3-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+</section>
+<section id="applied-example-3" class="slide level2 smaller">
+<h2><span style="font-size:60%">Applied example</span></h2>
+<div class="columns">
+<div class="column" style="font-size: 15pt;">
+<table class="caption-top">
+<thead>
+<tr class="header">
 <th>Feature</th>
 <th>FAIR</th>
 </tr>
@@ -478,7 +538,7 @@
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="test_2_082025_files/figure-revealjs/unnamed-chunk-3-1.png" width="768"></p>
+<p><img data-src="test_2_082025_files/figure-revealjs/unnamed-chunk-4-1.png" width="768"></p>
 </figure>
 </div>
 </div>
