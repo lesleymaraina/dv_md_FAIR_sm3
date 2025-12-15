@@ -452,8 +452,8 @@ set.seed(1)
 
 # Randomly map clusters a–e to immune cell names
 immune_labels <- c(
-  "a" = "CD4 T cells",
-  "b" = "CD8 T cells",
+  "a" = "CD4-T cells",
+  "b" = "CD8-T cells",
   "c" = "NK cells",
   "d" = "B cells",
   "e" = "Macrophages"
