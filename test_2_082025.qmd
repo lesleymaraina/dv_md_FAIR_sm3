@@ -446,42 +446,47 @@ p_before
 
 library(ggplot2)
 library(dplyr)
+library(glue)
 
 set.seed(1)
-umap_df <- tibble(
-  UMAP1  = rnorm(500),
-  UMAP2  = rnorm(500),
-  cluster = factor(sample(letters[1:5], 500, TRUE))
+
+# Randomly map clusters a–e to immune cell names
+immune_labels <- c(
+  "a" = "CD4 T cells",
+  "b" = "CD8 T cells",
+  "c" = "NK cells",
+  "d" = "B cells",
+  "e" = "Macrophages"
 )
 
-# before
-p_before <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster)) +
-  geom_point(size = 1.1, alpha = 0.7) +
-  theme_minimal() +
-  labs(title = "UMAP embedding")
+umap_df <- tibble(
+  UMAP1   = rnorm(500),
+  UMAP2   = rnorm(500),
+  cluster = factor(sample(letters[1:5], 500, TRUE))
+) %>%
+  mutate(cluster_label = immune_labels[cluster])
 
-# after
+# metadata for FAIR findability
 dataset_id    <- "TCGA-LUAD"
 accession     <- "GDC:TCGA-LUAD"
 pipeline_ver  <- "Scanpy 1.9.3"
 clust_method  <- "Leiden (resolution = 0.6)"
 n_cells       <- nrow(umap_df)
 
-p_after <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster)) +
+# revised (FAIR) figure
+p_after <- ggplot(umap_df, aes(UMAP1, UMAP2, color = cluster_label)) +
   geom_point(size = 1.1, alpha = 0.7) +
   theme_minimal() +
   labs(
-    title    = "Figure 2. UMAP of TCGA-LUAD tumor single cells",
-    subtitle = glue::glue("{accession}, n = {n_cells} cells; {clust_method}; pipeline {pipeline_ver}"),
+    title    = "Cell Cluster",
+    subtitle = glue("{accession}, n = {n_cells} cells; {clust_method}; pipeline {pipeline_ver}"),
     x        = "UMAP1",
     y        = "UMAP2",
-    color    = "Leiden cluster",
+    color    = "Immune Cell Type",
     caption  = "Input: log1p(CPM) genes; neighbors = 15; metric = cosine; QC: mito% < 15, n_genes > 500."
   )
 
-
 p_after
-
 
 
 ```
